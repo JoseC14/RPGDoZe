@@ -4,8 +4,8 @@ package entities;
 
 public class Player extends Person{
 
-	public Player(String name, Integer hpPoints, Integer manaPoints, Job job) {
-		super(name, hpPoints, manaPoints, job);
+	public Player(String name, Integer hpPoints, Integer manaPoints, Integer attack, Integer defence) {
+		super(name, hpPoints, manaPoints, attack, defence);
 	}
 	
 	public String talk()
@@ -17,11 +17,11 @@ public class Player extends Person{
 	{
 		if(item.getType() == "attack")
 		{
-			job.setAttack(job.getAttack() + item.getPoints());
+			setAttack(getAttack() + item.getPoints());
 		}
 		else if(item.getType() == "defence")
 		{
-			job.setProtection(job.getProtection() + item.getPoints());
+			setDefence(getDefence() + item.getPoints());
 		}
 		else if(item.getType() == "healing")
 		{

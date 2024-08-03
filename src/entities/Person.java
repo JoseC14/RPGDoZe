@@ -6,15 +6,18 @@ public class Person {
 	protected String name;
 	protected Integer hpPoints;
 	protected Integer manaPoints;
-	protected Job job;
+	protected Integer attack;
+	protected Integer defence;
+	protected String status;
+	protected Boolean turn;
 	
-	
-	
-	public Person(String name, Integer hpPoints, Integer manaPoints, Job job) {
+	public Person(String name, Integer hpPoints, Integer manaPoints, Integer attack, Integer defence) {
 		this.name = name;
 		this.hpPoints = hpPoints;
 		this.manaPoints = manaPoints;
-		this.job = job;
+		this.attack = attack;
+		this.defence = defence;
+		this.turn = false;
 	}
 	
 	
@@ -36,38 +39,56 @@ public class Person {
 	public void setManaPoints(Integer manaPoints) {
 		this.manaPoints = manaPoints;
 	}
-	public Job getJob() {
-		return job;
+	
+	public Integer getAttack() {
+		return attack;
 	}
-	public void setJob(Job job) {
-		this.job = job;
+
+	public void setAttack(Integer attack) {
+		this.attack = attack;
+	}
+
+	public Integer getDefence() {
+		return defence;
+	}
+
+	public void setDefence(Integer defence) {
+		this.defence = defence;
 	}
 	
-	
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+
 	public Integer attack()
 	{
 		Random rand = new Random();
 		
 		int attack = 0;
-		for( int i = 0; i < job.getAttack(); i++)
+		for( int i = 0; i < getAttack(); i++)
 		{
 			attack += rand.nextInt(6);
 		}
-		
+		turn = false;
 		return attack;
+		
 	}
 	
-	public Integer defend()
+	public void defend()
 	{
 		Random rand = new Random();
 		
-		int defence = 0;
-		for( int i = 0; i < job.getProtection(); i++)
+		for( int i = 0; i < getDefence(); i++)
 		{
-			defence += rand.nextInt(6);
+			this.defence += rand.nextInt(6);
 		}
+		turn = false;
 		
-		return defence;
 	}
 	
 	public Integer useMagic(Magic magic)
@@ -82,6 +103,30 @@ public class Person {
 			attack += rand.nextInt(6);
 		}
 		
+		turn = false;
 		return attack;
 	}
+	
+	public void takeDamage(int damage)
+	{
+		setHpPoints(getHpPoints() - damage);
+		turn = true;
+	}
+	
+	public void spendMana(Integer cost)
+	{
+		this.setManaPoints(this.getManaPoints() - cost);
+	}
+	
+	public void checkStatus(Magic magic)
+	{
+		if(magic.getName() == "Fogo")
+		{
+			if(turn == true)
+			{
+				takeDamage(magic.getAttack());
+			}
+		}
+	}
+	
 }
